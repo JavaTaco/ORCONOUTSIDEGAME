@@ -4,10 +4,9 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-public class Planet extends JLabel{
+public class Planet extends JPanel{
 
 private int maxPopulation;
 private int currentPopulation;
@@ -32,7 +31,13 @@ public Planet(){
 }
 
 public String toString(){
-	String temp =("maxPopulation: " + maxPopulation + "\ncurrentPopulation: " + currentPopulation + "\nlocalFood: " + localFood);
+	String temp =("Planet Name: " + planetName
+			+"\nmaxPopulation: " + maxPopulation 
+			+ "\ncurrentPopulation: " + currentPopulation
+			+ "\nLocal Credits: " + localCredit
+			+ "\nLocal Food: " + localFood
+			+ "\nCoordinates: " + coordinates
+			+ "\nlocalFood: " + localFood);
 	
 		
 	return (temp);
@@ -54,8 +59,8 @@ public void setStarMapImage(BufferedImage starMapImage){
 public String getPlanetName(){
 return planetName;
 }
-public void setPlanetName(){
-
+public void setPlanetName(String name){
+this.planetName = name;
 }
 public int getXCoordinates(){
 	return coordinates.x;

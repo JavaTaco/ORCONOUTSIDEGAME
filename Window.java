@@ -28,6 +28,7 @@ private BufferedImage bi= null;
 private Point centerOfScreen= new Point(mainFunction.getWidth()/2, mainFunction.getHeight()/2);
 private int centerOfScreenX = mainFunction.getWidth()/2;
 private int centerOfScreenY = mainFunction.getHeight()/2;
+public PlanetSummary planetSummary;
 public Window(){
 	
 	//used to load the images	
@@ -42,11 +43,13 @@ public Window(){
 	//just some example planets I've played around with
 	//for loop that randomly places the stars onto the map
 	Random rand = new Random();
-	planetList= new ArrayList();
+	planetList= new ArrayList<Planet>();
+	
 	for(int numberOfPlanets = 0; numberOfPlanets<50;numberOfPlanets++){
 	Planet sol = new Planet();
 	sol.setStarMapImage(bi);
 	sol.setCoordinates(rand.nextInt(2000), rand.nextInt(1000));
+	sol.setPlanetName("planet " + numberOfPlanets);
 	
 		planetList.add(sol);
 	}
@@ -71,7 +74,7 @@ protected void paintComponent(Graphics g) {
     for(int i =0;i<planetList.size();i++){
     g.setColor(planetList.get(i).getPlanetColor());
     g.drawImage(planetList.get(i).getStarMapImage(),planetList.get(i).getXCoordinates(),planetList.get(i).getYCoordinates(), null);
-    g.drawString(planetList.get(i).getPlanetName(), planetList.get(i).getXCoordinates()+6, planetList.get(i).getYCoordinates()+45);
+    g.drawString(planetList.get(i).getPlanetName(), planetList.get(i).getXCoordinates(), planetList.get(i).getYCoordinates()+45);
     
     }
     
@@ -89,21 +92,19 @@ public class GenericMouseHandler implements MouseListener,MouseMotionListener,Mo
 		Point clicked = e.getPoint();
 	    Rectangle bounds = new Rectangle(planet.getXCoordinates(), planet.getYCoordinates(), planet.getStarMapImage().getWidth(), planet.getStarMapImage().getHeight());
 	    if (bounds.contains(clicked)) {
-	        System.out.println("planet name: " + planet.getPlanetName());
-	        JOptionPane.showMessageDialog(null, planet.toString());
+	    	planetSummary.setJTA(planet.toString());
+	        
 	    }
 	    else
 	    {
 	    	
 	    }
 		}
-	    	
-			
-			for(int indexOfPlanets =0; indexOfPlanets <planetList.size();indexOfPlanets++){
-				
-				planetList.get(indexOfPlanets).setCoordinates(planetList.get(indexOfPlanets).getXCoordinates()+xDifference, planetList.get(indexOfPlanets).getYCoordinates()+yDifference);	
-
-			}
+//	    for(int indexOfPlanets =0; indexOfPlanets <planetList.size();indexOfPlanets++){
+//				
+//				planetList.get(indexOfPlanets).setCoordinates(planetList.get(indexOfPlanets).getXCoordinates()+xDifference, planetList.get(indexOfPlanets).getYCoordinates()+yDifference);	
+//
+//			}
 			repaint();
 	    
 		
@@ -136,6 +137,10 @@ public class GenericMouseHandler implements MouseListener,MouseMotionListener,Mo
 		
 	}
 
+	/*
+	 * so I like how this works but I need to get it so that it works like this when you click the center mouse button.
+	 * Still need to figure out of to get a good drag feature for use with the primary button
+	*/
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		int xDifference = centerOfScreen.x-e.getX();
@@ -157,7 +162,11 @@ public class GenericMouseHandler implements MouseListener,MouseMotionListener,Mo
 //		repaint();
 		
 	}
-
+/*
+ * need to learn how to zoom in and out inside of a Jpanel or learn how to scale 
+ * all the objects and move them apart as you scroll in.
+ * 
+ */
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent Event) {
 	MouseWatcher.setJTextField("you turned" + Event.getWheelRotation());	
